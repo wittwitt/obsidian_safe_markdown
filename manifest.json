@@ -1,0 +1,11 @@
+{
+	"id": "safe-markdown",
+	"name": "Safe Markdown",
+	"version": "1.0.0",
+	"minAppVersion": "0.15.0",
+	"description": "使用RSA,AES混合加密文档",
+	"author": "Witt",
+	"authorUrl": "https://github.com/obsidian_safe_markdown",
+	"fundingUrl": "https://github.com/obsidian_safe_markdown",
+	"isDesktopOnly": false
+}

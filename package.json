@@ -1,0 +1,32 @@
+{
+	"name": "obsidian-safe-markdown",
+	"version": "1.0.0",
+	"description": "This is a encrypt with RSA and AES plugin for Obsidian",
+	"main": "main.js",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"version": "node version-bump.mjs && git add manifest.json versions.json"
+	},
+	"keywords": [],
+	"author": "",
+	"license": "MIT",
+	"devDependencies": {
+		"@types/jest": "^29.5.14",
+		"@types/node": "^16.11.6",
+		"@types/node-forge": "^1.3.11",
+		"@typescript-eslint/eslint-plugin": "5.29.0",
+		"@typescript-eslint/parser": "5.29.0",
+		"builtin-modules": "3.3.0",
+		"esbuild": "^0.25.5",
+		"jest": "^29.7.0",
+		"obsidian": "latest",
+		"ts-jest": "^29.3.4",
+		"ts-node": "^10.9.2",
+		"tslib": "2.4.0",
+		"typescript": "^4.9.5"
+	},
+	"dependencies": {
+		"node-forge": "^1.3.1"
+	}
+}
