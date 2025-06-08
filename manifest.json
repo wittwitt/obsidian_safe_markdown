@@ -3,7 +3,7 @@
 	"name": "Safe Markdown",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "SafeMarkdown is an Obsidian plugin that enables hybrid encryption for your notes using RSA and AES.",
+	"description": "SafeMarkdown is an plugin that enables hybrid encryption for your notes using RSA and AES.",
 	"author": "Witt",
 	"authorUrl": "https://github.com/wittwitt/obsidian_safe_markdown",
 	"fundingUrl": "https://github.com/wittwitt/obsidian_safe_markdown",
