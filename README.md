@@ -18,56 +18,71 @@ obsidian文档加密插件。
 
   1. random32 = Random(32 bytes)
 
-      > 为每个文件生成一个32字节的随机密钥(random32)
+      - 为每个文件生成一个32字节的随机密钥(random32)
 
   2. C = AES(random32, Plaintext)
 
-      > 用随机密钥(random32)对明文(Plaintext)进行 AES 加密，得到密文(C)
+      - 用随机密钥(random32)对明文(Plaintext)进行 AES 加密，得到密文(C)
 
   3. K = RSA_Encrypt(PubKey, random32)
   
-      > 用公钥(PubKey)对随机密钥(random32)进行 RSA 加密, 得到加密后的密钥(K)
+      - 用公钥(PubKey)对随机密钥(random32)进行 RSA 加密, 得到加密后的密钥(K)
 
   5. Encrypted = K || C
   
-      > 将加密后的密钥(K)与密文(C)拼接，作为最终加密结果（Encrypted）保存到文件
+      - 将加密后的密钥(K)与密文(C)拼接，作为最终加密结果（Encrypted）保存到文件
 
 ### 解密
 
   1. PrivKey = AES(Password, KeyFile)
 
-      > 用用户密码（Password）解密密钥文件(KeyFile)，得到 RSA 私钥(PrivKey)
+      - 用用户密码（Password）解密密钥文件(KeyFile)，得到 RSA 私钥(PrivKey)
 
-      > 注：密钥文件的生成后续有说明
+      - 注：密钥文件的生成后续有说明
   
   2. K，C = Encrypted
 
-      > 从加密文件(Encrypted)中，拿到加密的随机密钥(K)和密文(C)
+      - 从加密文件(Encrypted)中，拿到加密的随机密钥(K)和密文(C)
 
   2. random32 = RSA_Decrypt(PrivKey, K)
   
-      > 用私钥(PrivKey)解密加密的随机密钥(K),得到随机密钥(random32)
+      - 用私钥(PrivKey)解密加密的随机密钥(K),得到随机密钥(random32)
 
   3. Plaintext = AES(random32, C)
   
-      > 用解密得到的随机密钥(random32)解密密文(C)，还原明文
+      - 用解密得到的随机密钥(random32)解密密文(C)，还原明文
 
 
 ## RSA密钥文件
 
 1. 生成私钥(2048, PKCS#8)
-openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+
+    ```sh
+    openssl genpkey -algorithm RSA -out private.pem -pkeyopt rsa_keygen_bits:2048
+    ```
 
 2. 导出公钥
-openssl rsa -in private.pem -pubout -out public.pem
+
+    ```sh
+    openssl rsa -in private.pem -pubout -out public.pem
+    ```
 
 3. 加密私钥
-openssl pkcs8 -in private.pem -out private_enc.pem -topk8 -v2 aes-256-cbc -v2prf hmacWithSHA256 -iter 100000
+
+    ```sh
+    openssl pkcs8 -in private.pem -out private_enc.pem -topk8 -v2 aes-256-cbc -v2prf hmacWithSHA256 -iter 100000
+    ```
 
 4. 合并私钥公钥
-cat private_enc.pem public.pem > pk.pem
 
-默认保存方式就是 pk.pem = aes(rsa私钥)+rsa公钥
+    - 默认保存方式就是 pk.pem = aes(rsa私钥)+rsa公钥
 
-> 解密该文件
-openssl pkcs8 -in private_enc.pem -out private_enc.d.pem 
+    ```sh
+    cat private_enc.pem public.pem > pk.pem
+    ```
+
+5. 解密该文件
+
+    ```sh
+    openssl pkcs8 -in private_enc.pem -out private_enc.d.pem 
+    ```
