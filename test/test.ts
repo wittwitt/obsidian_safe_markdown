@@ -1,9 +1,9 @@
 import * as forge from 'node-forge';
 
-import { GenRsaKeysContent, GetRsaPriKeyPem, GetRsaPubKeyPem } from "./key";
-import { DecryptMarkdown, EncryptMarkdown } from "./encrypt";
-import { AesCbc256Decrypt, AesCbc256Encrypt, DecryptRsaPrivateKey, EncryptRsaPrivateKey, GenRsaPirPub } from "./utils";
-import { EncryptAndFormat, GetEncryptedKeyBody } from "./format";
+import { GenRsaKeysContent, GetRsaPriKeyPem, GetRsaPubKeyPem } from "../key";
+import { DecryptMarkdown, EncryptMarkdown } from "../encrypt";
+import { AesCbc256Decrypt, AesCbc256Encrypt, DecryptRsaPrivateKey, EncryptRsaPrivateKey, GenRsaPirPub } from "../utils";
+import { EncryptAndFormat, GetEncryptedKeyBody } from "../format";
 
 const testPrivatePem = `-----BEGIN PRIVATE KEY-----
 MIIEvwIBADANBgkqhkiG9w0BAQEFAASCBKkwggSlAgEAAoIBAQDXi8VfDwzsmPB3

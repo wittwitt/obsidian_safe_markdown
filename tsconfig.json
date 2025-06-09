@@ -22,5 +22,5 @@
   },
   "include": [
     "**/*.ts"
-  ]
+, ".utils_test.ts"  ]
 }

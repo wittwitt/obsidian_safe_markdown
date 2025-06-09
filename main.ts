@@ -7,7 +7,7 @@ import { EncryptAndFormat, GetEncryptedKeyBody } from 'format';
 import i18n from './lang/i18n';
 import { KeyGenSettingTab, PluginSettings, DEFAULT_SETTINGS } from './setting'
 
-export default class EncryptPlugin extends Plugin {
+export default class SafeMarkdownPlugin extends Plugin {
 	settings: PluginSettings;
 
 
@@ -212,7 +212,7 @@ export default class EncryptPlugin extends Plugin {
 
 	private openPanel() {
 		// 实现面板打开逻辑
-		console.log(i18n.t('common.success'));
+		// console.log(i18n.t('common.success'));
 	}
 }
 

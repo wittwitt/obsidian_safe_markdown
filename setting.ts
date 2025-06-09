@@ -1,6 +1,6 @@
 import { App, Modal, Notice, Setting, PluginSettingTab } from 'obsidian';
 
-import EncryptPlugin from './main';
+import SafeMarkdownPlugin from './main';
 import { GenRsaKeysContent } from './key'
 
 //
@@ -17,9 +17,9 @@ export const DEFAULT_SETTINGS: PluginSettings = {
 };
 
 export class KeyGenSettingTab extends PluginSettingTab {
-  plugin: EncryptPlugin;
+  plugin: SafeMarkdownPlugin;
 
-  constructor(app: App, plugin: EncryptPlugin) {
+  constructor(app: App, plugin: SafeMarkdownPlugin) {
     super(app, plugin);
     this.plugin = plugin;
   }
@@ -51,7 +51,7 @@ export class KeyGenSettingTab extends PluginSettingTab {
           // 触发文件下载
           const timestamp = Math.floor(Date.now() / 1000);
           // this.downloadFile(`enc.${timestamp}.obsidian.meta`, encrypted);      
-          const filename = `enc.${timestamp}.obsidian.meta`;
+          const filename = `enc.${timestamp}.txt`;
 
           this.saveToExternalLocation(encrypted, filename);
 
@@ -130,7 +130,8 @@ export class KeyGenSettingTab extends PluginSettingTab {
     const a = document.createElement('a');
     a.href = url;
     a.download = filename;
-    a.style.display = 'none';
+    a.className = 'btnhide'
+    // a.style.display = 'none';
 
     document.body.appendChild(a);
     a.click();
