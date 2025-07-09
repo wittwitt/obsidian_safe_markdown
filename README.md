@@ -1,6 +1,6 @@
-# Obsidian Safe Markdown
+# Safe Markdown
 
-obsidian文档加密插件。
+Safe Markdown 是一个obsidian文档加密插件。
 
 采用RSA和AES混合加密方式。
 

@@ -1,38 +1,41 @@
-import { App, Editor, Menu, MarkdownView, Modal, Notice, Plugin, Setting, TFile } from 'obsidian';
+import { App, Editor, Menu, MarkdownView, Modal, Notice, Plugin, Setting, TFile, getLanguage } from 'obsidian';
 
 import { GetRsaPriKeyPem } from 'key';
 import { DecryptMarkdown } from 'encrypt';
 import { EncryptAndFormat, GetEncryptedKeyBody } from 'format';
 
 import i18n from './lang/i18n';
-import { KeyGenSettingTab, PluginSettings, DEFAULT_SETTINGS } from './setting'
+import { KeyGenSettingTab } from './setting'
 
 export default class SafeMarkdownPlugin extends Plugin {
-	settings: PluginSettings;
-
-
 	async onload() {
-		// 加载设置
-		await this.loadSettings();
-
-		// 初始化国际化
-		i18n.setLanguage(this.settings.language);
-		// this.i18n = new I18n(this.settings.language);
+		const language = getLanguage();
+		// console.log(language);
+		i18n.setLanguage(language);
 
 		this.addSettingTab(new KeyGenSettingTab(this.app, this));
 
 		this.addCommand({// 命令方式
 			id: 'encrypt-selection',
-			name: 'encrypt selection',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
+			name: i18n.t('main.DecryptSelection'),
+			editorCheckCallback: (checking: boolean, editor: Editor, view: MarkdownView) => {
+				if (checking) {
+					return editor.getSelection().length > 0; // Check if text is selected
+				}
+				// Execute when command is triggered
+				console.log("Selected text:", editor.getSelection());
+
 				this.encryptSelection(editor);
 			}
 		});
 
 		this.addCommand({// 命令方式
 			id: 'decrypt-selection',
-			name: 'decrypt selection',
-			editorCallback: (editor: Editor, view: MarkdownView) => {
+			name: i18n.t('main.EncryptSelection'),
+			editorCheckCallback: (checking: boolean, editor: Editor, view: MarkdownView) => {
+				if (checking) {
+					return editor.getSelection().length > 0; // Check if text is selected
+				}
 				this.decryptSelection(editor);
 			}
 		});
@@ -62,22 +65,26 @@ export default class SafeMarkdownPlugin extends Plugin {
 
 		this.registerEvent(// 上下文右击菜单
 			this.app.workspace.on('editor-menu', (menu: Menu, editor: Editor, view: MarkdownView) => {
-				menu.addItem((item) => {
-					item
-						.setTitle(i18n.t('main.EncryptSelection'))
-						.setIcon('lock')
-						.onClick(() => {
-							this.encryptSelection(editor);
-						});
-				});
-				menu.addItem((item) => {
-					item
-						.setTitle(i18n.t('main.DecryptSelection'))
-						.setIcon('unlock')
-						.onClick(() => {
-							this.decryptSelection(editor);
-						});
-				});
+				if (editor.getSelection().length > 0) {
+					menu.addItem((item) => {
+						item
+							.setTitle(i18n.t('main.EncryptSelection'))
+							.setIcon('lock')
+							.onClick(() => {
+								this.encryptSelection(editor);
+							});
+					});
+					menu.addItem((item) => {
+						item
+							.setTitle(i18n.t('main.DecryptSelection'))
+							.setIcon('unlock')
+							.onClick(() => {
+								this.decryptSelection(editor);
+							});
+					});
+				}
+
+
 			})
 		);
 	}
@@ -176,43 +183,6 @@ export default class SafeMarkdownPlugin extends Plugin {
 				new Notice(i18n.t('main.fdtip3') + ` ${error.message}`);
 			}
 		}).open();
-	}
-
-	//
-	async loadSettings() {
-		this.settings = Object.assign({}, DEFAULT_SETTINGS, await this.loadData());
-	}
-
-	async saveSettings() {
-		await this.saveData(this.settings);
-	}
-
-	// 语言更改时的回调
-	onLanguageChange() {
-		// 重新注册命令（更新命令名称）
-		this.updateCommands();
-
-		// 刷新UI组件
-		this.refreshUI();
-
-		// 显示成功消息
-		new Notice(i18n.t('i18n.languageChanged'));
-	}
-
-	private updateCommands() {
-		// 重新注册命令以更新名称
-		// 注意：Obsidian 不直接支持动态更新命令名称
-		// 可能需要重启插件或使用其他方法
-	}
-
-	private refreshUI() {
-		// 刷新所有UI组件
-		// 触发重新渲染
-	}
-
-	private openPanel() {
-		// 实现面板打开逻辑
-		// console.log(i18n.t('common.success'));
 	}
 }
 

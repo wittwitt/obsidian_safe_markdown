@@ -2,8 +2,8 @@
 	"id": "safe-markdown",
 	"name": "Safe Markdown",
 	"version": "1.0.0",
-	"minAppVersion": "0.15.0",
-	"description": "SafeMarkdown is an plugin that enables hybrid encryption for your notes using RSA and AES.",
+	"minAppVersion": "1.8.0",
+	"description": "SafeMarkdown enables hybrid encryption for notes using RSA and AES.",
 	"author": "Witt",
 	"authorUrl": "https://github.com/wittwitt",
 	"isDesktopOnly": false

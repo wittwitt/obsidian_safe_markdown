@@ -5,16 +5,7 @@ import { GenRsaKeysContent } from './key'
 
 //
 import i18n from './lang/i18n';
-import { SupportedLanguage, detectSystemLanguage, SUPPORTED_LANGUAGES } from './lang/helpers';
 
-// settings.ts
-export interface PluginSettings {
-  language: SupportedLanguage;
-}
-
-export const DEFAULT_SETTINGS: PluginSettings = {
-  language: detectSystemLanguage(),
-};
 
 export class KeyGenSettingTab extends PluginSettingTab {
   plugin: SafeMarkdownPlugin;
@@ -27,10 +18,8 @@ export class KeyGenSettingTab extends PluginSettingTab {
   display(): void {
     const { containerEl } = this;
 
-    // const { i18n } = this.plugin;
-
     containerEl.empty();
-    containerEl.createEl('h2', { text: i18n.t('settings.title') });
+    // containerEl.createEl('h2', { text: i18n.t('settings.title') });
 
     new Setting(containerEl)
       .setName(i18n.t('makekey.title'))
@@ -56,27 +45,6 @@ export class KeyGenSettingTab extends PluginSettingTab {
           this.saveToExternalLocation(encrypted, filename);
 
           new Notice(i18n.t('makekey.okTip'));
-        })
-      );
-
-    new Setting(containerEl)
-      .setName(i18n.t('settings.language'))
-      .addDropdown(dropdown => dropdown
-        .addOptions(
-          Object.fromEntries(
-            Object.entries(SUPPORTED_LANGUAGES).map(([code, name]) => [code, name])
-          )
-        )
-        .setValue(this.plugin.settings.language)
-        .onChange(async (value: SupportedLanguage) => {
-          this.plugin.settings.language = value;
-          i18n.setLanguage(value);
-          await this.plugin.saveSettings();
-
-          // 重新渲染设置面板
-          this.display();
-          // 通知其他组件语言已更改
-          this.plugin.onLanguageChange();
         })
       );
   }

@@ -1,16 +1,17 @@
-import { moment } from 'obsidian';
+import { getLanguage } from 'obsidian';
 
 // 支持的语言列表
 export const SUPPORTED_LANGUAGES = {
   'en': 'English',
-  'zh-cn': '简体中文'
+  'zh': '简体中文'
 } as const;
 
 export type SupportedLanguage = keyof typeof SUPPORTED_LANGUAGES;
 
 // 检测系统语言
 export function detectSystemLanguage(): SupportedLanguage {
-  const systemLang = window.navigator.language.toLowerCase();
+  // const systemLang = window.navigator.language.toLowerCase();
+  const systemLang = getLanguage();
 
   // 精确匹配
   if (systemLang in SUPPORTED_LANGUAGES) {
@@ -29,16 +30,3 @@ export function detectSystemLanguage(): SupportedLanguage {
   return 'en';
 }
 
-// 获取 Obsidian 当前语言
-export function getObsidianLanguage(): SupportedLanguage {
-  const obsidianLang = (window as any).app?.vault?.adapter?.fs?.promises ?
-    moment.locale() : 'en';
-
-  // 转换 Obsidian 语言代码到我们的语言代码
-  const langMap: Record<string, SupportedLanguage> = {
-    'zh-cn': 'zh-cn',
-    'zh': 'zh-cn'
-  };
-
-  return langMap[obsidianLang] || 'en';
-}

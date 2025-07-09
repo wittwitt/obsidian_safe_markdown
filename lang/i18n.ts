@@ -18,7 +18,7 @@ export class I18n {
   private currentLanguage: SupportedLanguage = 'en';
   private translations: Record<SupportedLanguage, any> = {
     'en': en,
-    'zh-cn': zhCn
+    'zh': zhCn
   };
 
   constructor(language?: SupportedLanguage) {
