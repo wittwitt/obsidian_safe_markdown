@@ -23,7 +23,7 @@ export default class SafeMarkdownPlugin extends Plugin {
 					return editor.getSelection().length > 0; // Check if text is selected
 				}
 				// Execute when command is triggered
-				console.log("Selected text:", editor.getSelection());
+				// console.log("Selected text:", editor.getSelection());
 
 				this.encryptSelection(editor);
 			}

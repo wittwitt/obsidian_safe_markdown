@@ -43,7 +43,7 @@ export class I18n {
     );
 
     if (typeof translation !== 'string') {
-      console.warn(`Translation not found for key: ${key}`);
+      // console.warn(`Translation not found for key: ${key}`);
       return key;
     }
 

@@ -88,7 +88,7 @@ export class KeyGenSettingTab extends PluginSettingTab {
       this.downloadFile(blob, filename);
 
     } catch (error) {
-      console.error(i18n.t('makekey.downFailed'), error);
+      // console.error(i18n.t('makekey.downFailed'), error);
       new Notice(i18n.t('makekey.downFailed'));
     }
   }
